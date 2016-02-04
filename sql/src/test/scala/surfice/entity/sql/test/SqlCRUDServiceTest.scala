@@ -62,6 +62,7 @@ object SqlCRUDServiceTestFixture {
     override def wrapList(page: Int, pageSize: Int, list: Iterable[Data]): ListResult[Data] = DataList(page,pageSize,list)
 
     override def readOnly[A](execution: (DBSession) => A): A = db.readOnly(execution)
+    override def autoCommit[A](execution: (DBSession) => A): A = db.autoCommit(execution)
 
     override def mapSingle(rs: WrappedResultSet): Data = Data(
       rs.int("id"),

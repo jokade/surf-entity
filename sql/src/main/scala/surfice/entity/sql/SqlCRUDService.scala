@@ -8,14 +8,12 @@ package surfice.entity.sql
 import surfice.entity.{ListResult, ReadEntityService}
 import scalikejdbc._
 
-abstract class SqlCRUDService[IdType,EntityType] extends ReadEntityService[IdType,EntityType] {
+abstract class SqlCRUDService[IdType,EntityType]
+  extends SqlService[IdType,EntityType]
+  with ReadEntityService[IdType,EntityType] {
 
   def sqlRead(id: IdType) : SQL[Nothing,NoExtractor]
   def sqlList(offset: Int, limit: Int) : SQL[Nothing,NoExtractor]
-
-  def readOnly[A](execution: (DBSession)=>A): A
-  def mapSingle(rs: WrappedResultSet) : EntityType
-  def wrapList(page: Int, pageSize: Int, list: Iterable[EntityType]): ListResult[EntityType]
 
   override def readEntity(id: IdType): Option[EntityType] = readOnly{ implicit session =>
     sqlRead(id).map(mapSingle _).single().apply()
