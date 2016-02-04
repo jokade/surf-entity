@@ -5,11 +5,15 @@ lazy val commonSettings = Seq(
   version := "0.1-SNAPSHOT",
   scalaVersion := "2.11.7",
   scalacOptions ++= Seq("-deprecation","-unchecked","-feature","-Xlint"),
-  resolvers += Resolver.sonatypeRepo("snapshots")
+  resolvers += Resolver.sonatypeRepo("snapshots"),
+  libraryDependencies ++= Seq(
+    "com.lihaoyi" %%% "utest" % "0.3.1"
+  ),
+  testFrameworks += new TestFramework("utest.runner.Framework")
 )
 
 lazy val root = project.in(file(".")).
-  aggregate(entityJVM,entityJS).
+  aggregate(entityJVM,entityJS,sql).
   settings(commonSettings:_*).
   //settings(sonatypeSettings: _*).
   settings(
@@ -25,10 +29,8 @@ lazy val entity = crossProject.in(file(".")).
     name := "surfice-entity",
     libraryDependencies ++= Seq(
       "biz.enef" %%% "slogging" % "0.4.0",
-      "de.surfice" %%% "surf-core" % "0.1-SNAPSHOT",
-      "com.lihaoyi" %%% "utest" % "0.3.1"
-    ),
-    testFrameworks += new TestFramework("utest.runner.Framework")
+      "de.surfice" %%% "surf-core" % "0.1-SNAPSHOT"
+    )
   ).
   jvmSettings(
   ).
@@ -40,6 +42,17 @@ lazy val entity = crossProject.in(file(".")).
 lazy val entityJVM = entity.jvm
 lazy val entityJS = entity.js
 
+
+lazy val sql = project.
+  dependsOn(entityJVM % "compile->compile;test->test").
+  settings(commonSettings:_*).
+  settings(
+    name := "surfice-entity-sql",
+    libraryDependencies ++= Seq(
+      "org.scalikejdbc" %% "scalikejdbc" % "2.3.4",
+      "com.h2database" % "h2" % "1.4.187" % "test"
+    )
+  )
 
 lazy val publishingSettings = Seq(
   publishMavenStyle := true,
