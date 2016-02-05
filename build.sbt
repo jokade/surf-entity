@@ -24,7 +24,7 @@ lazy val root = project.in(file(".")).
 
 lazy val entity = crossProject.in(file(".")).
   settings(commonSettings:_*).
-  //settings(publishingSettings:_*).
+  settings(publishingSettings:_*).
   settings(
     name := "surfice-entity",
     libraryDependencies ++= Seq(
@@ -46,6 +46,7 @@ lazy val entityJS = entity.js
 lazy val sql = project.
   dependsOn(entityJVM % "compile->compile;test->test").
   settings(commonSettings:_*).
+  settings(publishingSettings:_*).
   settings(
     name := "surfice-entity-sql",
     libraryDependencies ++= Seq(

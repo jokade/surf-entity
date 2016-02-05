@@ -9,7 +9,7 @@ import surf.{ServiceRefFactory, ServiceRef}
 import surf.dsl._
 import surfice.entity.exceptions.InvalidIdException
 import surfice.entity.messages.{ListEntities, ReadEntity}
-import surfice.entity.{ListResult, ReadEntityService}
+import surfice.entity.{QueryFilter, ListResult, ReadEntityService}
 import utest._
 
 import scala.concurrent.ExecutionContext
@@ -124,7 +124,7 @@ object ReadEntityServiceTest extends ReadEntityServiceBehaviour[Int,String] {
 
     override def readEntity(id: Int): Option[String] = entities.get(id)
 
-    override def listEntities(page: Int, pageSize: Int): ListResult[String] =
+    override def listEntities(page: Int, pageSize: Int, filter: QueryFilter): ListResult[String] =
       if(page<1 || pageSize<1) LR(1,0,entities.values)
       else {
         val offset = (page-1)*pageSize

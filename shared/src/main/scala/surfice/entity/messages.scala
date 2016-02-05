@@ -8,5 +8,8 @@ package surfice.entity
 object messages {
 
   case class ReadEntity[IdType](id: IdType)
-  case class ListEntities(page: Int = 1, pageSize: Int = 0)
+
+  case class ListEntities(page: Int = 1,
+                          pageSize: Int = 0,
+                          filter: QueryFilter = QueryFilter.All)
 }

@@ -9,7 +9,7 @@ import scalikejdbc._
 import surf.{ServiceRefFactory, ServiceRef}
 import surfice.entity.ListResult
 import surfice.entity.exceptions.InvalidIdException
-import surfice.entity.sql.SqlCRUDService
+import surfice.entity.sql.{SqlQueryFilter, SqlCRUDService}
 import surfice.entity.sql.test.SqlCRUDServiceTestFixture.{TestService, Data}
 import surfice.entity.test.ReadEntityServiceBehaviour
 
@@ -70,7 +70,8 @@ object SqlCRUDServiceTestFixture {
     )
 
     override def sqlRead(id: Int): SQL[Nothing, NoExtractor] = sql"select id,value from data where id=$id"
-    override def sqlList(offset: Int, limit: Int): SQL[Nothing, NoExtractor] = sql"select id,value from data limit $limit offset $offset"
+    override def sqlList(offset: Int, limit: Int, where: SqlQueryFilter): SQL[Nothing, NoExtractor] =
+      sql"select id,value from data ${where.sql} limit $limit offset $offset"
   }
 }
 
