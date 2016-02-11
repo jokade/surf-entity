@@ -8,7 +8,7 @@ package scalikejdbc
 import surfice.entity.UnsupportedQueryFilter
 
 package object ext {
-  private val validColumnNames = """[a-zA-Z][a-zA-Z0-9_]*""".r.pattern
+  private val validColumnNames = """[a-zA-Z][a-zA-Z0-9_\.]*""".r.pattern
 
   def column(name: String) : SQLSyntax =
     if( validColumnNames.matcher(name).matches() ) new SQLSyntax(name)

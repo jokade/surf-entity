@@ -9,6 +9,10 @@ object messages {
 
   case class ReadEntity[IdType](id: IdType)
 
+  case class UpdateEntity[IdType,EntityType](id: IdType, entity: EntityType)
+
+  case class CreateEntity[EntityType](entity: EntityType)
+
   case class ListEntities(page: Int = 1,
                           pageSize: Int = 0,
                           filter: QueryFilter = QueryFilter.All)

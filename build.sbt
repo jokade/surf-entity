@@ -50,7 +50,7 @@ lazy val sql = project.
   settings(
     name := "surfice-entity-sql",
     libraryDependencies ++= Seq(
-      "org.scalikejdbc" %% "scalikejdbc" % "2.3.4",
+      "org.scalikejdbc" %% "scalikejdbc" % "2.2.6",
       "com.h2database" % "h2" % "1.4.187" % "test"
     )
   )

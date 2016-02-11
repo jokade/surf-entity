@@ -24,8 +24,8 @@ trait ReadEntityServiceBehaviour[IdType,EntityType] extends TestBase {
   // returns a valid, but not-existent Id
   def notExistent: IdType
 
-  assert( entities.size > 3 )
   val tests = TestSuite {
+    assert( entities.size > 3 )
     'read-{
       'exists-{
         val e = entities.head
@@ -106,7 +106,7 @@ object ReadEntityServiceTest extends ReadEntityServiceBehaviour[Int,String] {
 
   override def notExistent = 999
 
-  override def entities: Map[Int,String] = Map(
+  override val entities: Map[Int,String] = Map(
     1 -> "hello",
     42 -> "world",
     123 -> "another value",
